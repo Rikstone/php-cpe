@@ -1,0 +1,31 @@
+{
+    "name": "rikstone/php-cpe",
+    "description": "A package that enables working with Common Platform Enumeration (CPE)",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Rikstone\\Cpe\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rikstone\\Cpe\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Kolevatov"
+        }
+    ],
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.4"
+    },
+    "scripts": {
+        "phpunit": "php vendor/bin/phpunit tests"
+    }
+}
