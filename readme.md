@@ -23,8 +23,7 @@ composer require rikstone/php-cpe
 **Creating a CPE 2.2**
 
 ```php
-use Rikstone\Cpe\Cpe22;
-use Rikstone\Cpe\Part;
+use Rikstone\Cpe\Common\Part;use Rikstone\Cpe\Cpe22;
 
 $cpe = (new Cpe22())
     ->setPart(Part::H)
@@ -38,8 +37,7 @@ echo $cpe;
 **Creating a CPE 2.3**
 
 ```php
-use Rikstone\Cpe\Cpe23;
-use Rikstone\Cpe\Part;
+use Rikstone\Cpe\Common\Part;use Rikstone\Cpe\Cpe23;
 
 $cpe = (new Cpe23())
     ->setPart(Part::A)

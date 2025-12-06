@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Rikstone\Cpe;
+namespace Rikstone\Cpe\Common;
 
 /**
- * The first component in a CPE Name is a single letter code that designates the particular platform part that is being identified.
- * The following codes are defined for CPE 2.0.
+ * The first component in a CPE Name is a single letter code that designates the particular platform part that is being identified
  */
 enum Part: string
 {
