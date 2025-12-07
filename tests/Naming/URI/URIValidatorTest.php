@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rikstone\Cpe\Tests\Naming;
+namespace Rikstone\Cpe\Tests\Naming\URI;
 
 use PHPUnit\Framework\TestCase;
 use Rikstone\Cpe\Exception\InvalidURIException;

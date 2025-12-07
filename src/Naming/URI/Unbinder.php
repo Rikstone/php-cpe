@@ -22,7 +22,7 @@ final class Unbinder
         URIValidator::validate($uri);
 
         $components = $this->extractComponents($uri);
-        $wfn        = new WellFormedName(Part::A);
+        $wfn = new WellFormedName(Part::A);
 
         $partValue = PercentDecoder::decode($components[1] ?? '');
 
@@ -30,7 +30,7 @@ final class Unbinder
             throw new InvalidURIException("Part component cannot be a logical value");
         }
 
-        $partEnum  = Part::tryFrom($partValue);
+        $partEnum = Part::tryFrom($partValue);
 
         if ($partEnum === null) {
             throw new InvalidURIException("Invalid part value: '$partValue'");
@@ -38,10 +38,10 @@ final class Unbinder
 
         $wfn->part = $partEnum;
 
-        $wfn->vendor  = PercentDecoder::decode($components[2] ?? '');
+        $wfn->vendor = PercentDecoder::decode($components[2] ?? '');
         $wfn->product = PercentDecoder::decode($components[3] ?? '');
         $wfn->version = PercentDecoder::decode($components[4] ?? '');
-        $wfn->update  = PercentDecoder::decode($components[5] ?? '');
+        $wfn->update = PercentDecoder::decode($components[5] ?? '');
 
         $editionComponent = $components[6] ?? '';
 
