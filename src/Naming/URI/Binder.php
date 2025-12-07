@@ -34,10 +34,10 @@ final class Binder
             $value = $wfn->$attribute;
 
             if ($value instanceof Part) {
-                $value = $wfn->part->value;
+                $value = $value->value;
             }
 
-            if ($attribute == 'edition') {
+            if ($attribute === 'edition') {
                 $value = EditionPacker::pack(
                     $this->bindValueForURI($wfn->edition),
                     $this->bindValueForURI($wfn->swEdition),
@@ -49,86 +49,89 @@ final class Binder
                 $value = $this->bindValueForURI($value);
             }
 
-            $uri .= sprintf('%s:', $value);
+            $uri .= $value . ':';
         }
 
-        return $this->trim($uri);
+        return $this->trimSuffixColons($uri);
     }
 
     /**
+     * Converts a single logical or string WFN value into URI syntax.
+     *
      * @throws InvalidLogicalValueException
      */
     private function bindValueForURI(string|LogicalValue $value): string
     {
-        if (!is_string($value)) {
-            if ($value instanceof Any) {
-                return '';
-            }
-
-            if ($value instanceof NA) {
-                return '-';
-            }
-
-            throw new InvalidLogicalValueException();
+        if ($value instanceof Any) {
+            return '';
         }
 
-        return $this->transformForUri($value);
+        if ($value instanceof NA) {
+            return '-';
+        }
+
+        if (!is_string($value)) {
+            throw new InvalidLogicalValueException('Unexpected logical value in WFN attribute');
+        }
+
+        return $this->transformForURI($value);
     }
 
+    /**
+     * Transform WFN-safe string into CPE 2.2 URI-safe string.
+     */
     private function transformForURI(string $value): string
     {
         $result = '';
-        $idx = 0;
+        $length = strlen($value);
 
-        while ($idx < strlen($value)) {
-            $thisChar = substr($value, $idx, 1);
+        for ($i = 0; $i < $length; ) {
+            $char = $value[$i];
 
-            if ($this->isAlphanumeric($thisChar)) {
-                $result .= $thisChar;
-                $idx = $idx + 1;
+            if ($this->isAlphanumeric($char)) {
+                $result .= $char;
+                $i++;
                 continue;
             }
 
-            if ($thisChar == "\\") {
-                $idx = $idx + 1;
-                $nextChar = substr($value, $idx, 1);
+            if ($char === '\\') {
+                $i++;
+                if ($i >= $length) {
+                    break;
+                }
+
+                $nextChar = $value[$i];
                 $result .= PercentEncoder::encode($nextChar);
-                $idx = $idx + 1;
+                $i++;
                 continue;
             }
 
-            if ($thisChar == '?') {
+            if ($char === '?') {
                 $result .= '%01';
+                $i++;
+                continue;
             }
 
-            if ($thisChar == '*') {
+            if ($char === '*') {
                 $result .= '%02';
+                $i++;
+                continue;
             }
 
-            $idx = $idx + 1;
+            $result .= PercentEncoder::encode($char);
+            $i++;
         }
 
         return $result;
     }
 
-    private function isAlphanumeric(string $value): bool
+    private function isAlphanumeric(string $char): bool
     {
-        return (bool)preg_match('/^[a-zA-Z0-9_]+$/', $value);
+        return ctype_alnum($char) || $char === '_';
     }
 
-    private function trim(string $value): string
+    private function trimSuffixColons(string $uri): string
     {
-        $reversedString = strrev($value);
-        $idx = 0;
-
-        for ($i = 0; $i != strlen($reversedString); $i++) {
-            if (substr($reversedString, $i, 1) == ":") {
-                $idx = $idx + 1;
-            } else {
-                break;
-            }
-        }
-
-        return strrev(substr($reversedString, $idx, strlen($reversedString) - $idx));
+        return rtrim($uri, ':');
     }
 }
