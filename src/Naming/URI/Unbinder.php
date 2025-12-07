@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rikstone\Cpe\Naming\URI;
 
-use Exception;
 use Rikstone\Cpe\Common\Part;
 use Rikstone\Cpe\Exception\InvalidURIException;
 use Rikstone\Cpe\WellFormedName;
@@ -15,7 +14,6 @@ final class Unbinder
      * Unbind CPE 2.2 URI into a WellFormedName.
      *
      * @throws InvalidURIException
-     * @throws Exception
      */
     public function unbindURI(string $uri): WellFormedName
     {
