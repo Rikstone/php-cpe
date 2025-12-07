@@ -88,13 +88,13 @@ final class Binder
      * - All other backslash-escaped chars → retained with backslash
      * - Unescaped chars → pass through
      */
-    private function processQuotedChars(string $s): string
+    private function processQuotedChars(string $value): string
     {
         $result = '';
-        $length = strlen($s);
+        $length = strlen($value);
 
         for ($i = 0; $i < $length; $i++) {
-            $char = $s[$i];
+            $char = $value[$i];
 
             if ($char !== '\\') {
                 $result .= $char;
@@ -107,7 +107,7 @@ final class Binder
                 break;
             }
 
-            $nextChar = $s[$i];
+            $nextChar = $value[$i];
 
             if (in_array($nextChar, ['.', '-', '_'], true)) {
                 $result .= $nextChar;

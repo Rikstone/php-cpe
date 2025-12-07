@@ -30,9 +30,7 @@ final class Unbinder
             throw new InvalidURIException("Part component cannot be a logical value");
         }
 
-        $partEnum = Part::tryFrom($partValue);
-
-        if ($partEnum === null) {
+        if (!$partEnum = Part::tryFrom($partValue)) {
             throw new InvalidURIException("Invalid part value: '$partValue'");
         }
 

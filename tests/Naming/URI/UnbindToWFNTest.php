@@ -27,14 +27,14 @@ final class UnbindToWFNTest extends TestCase
     {
         $this->assertInstanceOf(
             WellFormedName::class,
-            new Unbinder()->unbindURI('cpe:/a'),
+            $this->unbinder->unbindURI('cpe:/a'),
         );
     }
 
     public function testUnbinderMustWorkOnlyWithValidatedURI(): void
     {
         $this->expectException(InvalidURIException::class);
-        new Unbinder()->unbindURI('');
+        $this->unbinder->unbindURI('');
     }
 
     /**
@@ -42,7 +42,7 @@ final class UnbindToWFNTest extends TestCase
      */
     public function testExample1(): void
     {
-        $wfn = new Unbinder()->unbindURI('cpe:/a:microsoft:internet_explorer:8.0.6001:beta');
+        $wfn = $this->unbinder->unbindURI('cpe:/a:microsoft:internet_explorer:8.0.6001:beta');
 
         $this->assertSame('a', $wfn->part->value);
         $this->assertSame('microsoft', $wfn->vendor);
@@ -59,7 +59,7 @@ final class UnbindToWFNTest extends TestCase
     public function testExample2(): void
     {
         $wfn = $this->unbinder->unbindURI(
-            'cpe:/a:microsoft:internet_explorer:8.%2a:sp%3f'
+            'cpe:/a:microsoft:internet_explorer:8.%2a:sp%3f',
         );
 
         $this->assertSame('a', $wfn->part->value);
@@ -74,7 +74,7 @@ final class UnbindToWFNTest extends TestCase
     public function testExample3(): void
     {
         $wfn = $this->unbinder->unbindURI(
-            'cpe:/a:microsoft:internet_explorer:8.%02:sp%01'
+            'cpe:/a:microsoft:internet_explorer:8.%02:sp%01',
         );
 
         $this->assertSame('a', $wfn->part->value);
@@ -89,7 +89,7 @@ final class UnbindToWFNTest extends TestCase
     public function testExample4(): void
     {
         $wfn = $this->unbinder->unbindURI(
-            'cpe:/a:hp:insight_diagnostics:7.4.0.1570::~~online~win2003~x64~'
+            'cpe:/a:hp:insight_diagnostics:7.4.0.1570::~~online~win2003~x64~',
         );
 
         $this->assertSame('a', $wfn->part->value);
@@ -111,7 +111,7 @@ final class UnbindToWFNTest extends TestCase
     public function testExample5(): void
     {
         $wfn = $this->unbinder->unbindURI(
-            'cpe:/a:hp:openview_network_manager:7.51:-:~~~linux~~'
+            'cpe:/a:hp:openview_network_manager:7.51:-:~~~linux~~',
         );
 
         $this->assertSame('a', $wfn->part->value);
@@ -132,7 +132,7 @@ final class UnbindToWFNTest extends TestCase
         $this->expectException(InvalidURIException::class);
 
         $this->unbinder->unbindURI(
-            'cpe:/a:foo%5cbar:big%24money_2010%07:::~~special~ipod_touch~80gb~'
+            'cpe:/a:foo%5cbar:big%24money_2010%07:::~~special~ipod_touch~80gb~',
         );
     }
 
@@ -142,7 +142,7 @@ final class UnbindToWFNTest extends TestCase
     public function testExample7(): void
     {
         $wfn = $this->unbinder->unbindURI(
-            'cpe:/a:foo~bar:big%7emoney_2010'
+            'cpe:/a:foo~bar:big%7emoney_2010',
         );
 
         $this->assertSame('a', $wfn->part->value);
@@ -159,7 +159,7 @@ final class UnbindToWFNTest extends TestCase
         $this->expectException(InvalidURIException::class);
 
         $this->unbinder->unbindURI(
-            'cpe:/a:foo:bar:12.%02.1234'
+            'cpe:/a:foo:bar:12.%02.1234',
         );
     }
 }

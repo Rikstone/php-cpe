@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Rikstone\Cpe\Tests\FormattedString;
+namespace Rikstone\Cpe\Tests\Naming\FormattedString;
 
 use PHPUnit\Framework\TestCase;
 use Rikstone\Cpe\Common\Logical\Any;
 use Rikstone\Cpe\Common\Logical\NA;
 use Rikstone\Cpe\Common\Part;
+use Rikstone\Cpe\Exception\InvalidLogicalValueException;
 use Rikstone\Cpe\Naming\FormattedString\Binder;
 use Rikstone\Cpe\WellFormedName;
 
@@ -20,6 +21,9 @@ final class BindToFSTest extends TestCase
         $this->binder = new Binder();
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample1(): void
     {
         $wfn = new WellFormedName(
@@ -37,6 +41,9 @@ final class BindToFSTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample2(): void
     {
         $wfn = new WellFormedName(
@@ -54,6 +61,9 @@ final class BindToFSTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample3(): void
     {
         $wfn = new WellFormedName(
@@ -73,6 +83,9 @@ final class BindToFSTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample4(): void
     {
         $wfn = new WellFormedName(
@@ -89,6 +102,9 @@ final class BindToFSTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample5(): void
     {
         $wfn = new WellFormedName(

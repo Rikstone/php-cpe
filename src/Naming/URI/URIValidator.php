@@ -10,7 +10,7 @@ use Rikstone\Cpe\Exception\InvalidURIException;
 final class URIValidator
 {
     /**
-     * Validate uri with two rules:
+     * Validate uri with rules:
      *  URI must start with the characters "cpe:/"
      *  A URI may not contain more than 7 components
      *  A URI must contain correct part component

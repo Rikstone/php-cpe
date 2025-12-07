@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Rikstone\Cpe\Common\Logical\Any;
 use Rikstone\Cpe\Common\Logical\NA;
 use Rikstone\Cpe\Common\Part;
+use Rikstone\Cpe\Exception\InvalidLogicalValueException;
 use Rikstone\Cpe\Naming\URI\Binder;
 use Rikstone\Cpe\WellFormedName;
 
@@ -20,6 +21,9 @@ final class BindToURITest extends TestCase
         $this->binder = new Binder();
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample1(): void
     {
         $wfn = new WellFormedName(
@@ -37,6 +41,9 @@ final class BindToURITest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample2(): void
     {
         $wfn = new WellFormedName(
@@ -54,6 +61,9 @@ final class BindToURITest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample3(): void
     {
         $wfn = new WellFormedName(
@@ -74,6 +84,9 @@ final class BindToURITest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample4(): void
     {
         $wfn = new WellFormedName(
@@ -91,6 +104,9 @@ final class BindToURITest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidLogicalValueException
+     */
     public function testExample5(): void
     {
         $wfn = new WellFormedName(

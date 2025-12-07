@@ -16,7 +16,7 @@ final class URIValidatorTest extends TestCase
         URIValidator::validate('');
     }
 
-    public function testURIContainMoreThan7Components(): void
+    public function testExceptionIfURIContainMoreThan7Components(): void
     {
         $this->expectException(InvalidURIException::class);
         URIValidator::validate('cpe:/a:test:test:test:test:test:test:test');

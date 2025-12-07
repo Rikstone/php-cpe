@@ -13,28 +13,43 @@ use Rikstone\Cpe\Naming\URI\PercentDecoder;
 
 final class PercentDecoderTest extends TestCase
 {
+    /**
+     * @throws Exception
+     */
     public function testEmptyStringReturnsAny(): void
     {
         $result = PercentDecoder::decode("");
         $this->assertInstanceOf(Any::class, $result);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testHyphenReturnsNA(): void
     {
         $result = PercentDecoder::decode("-");
         $this->assertInstanceOf(NA::class, $result);
     }
 
+    /**
+     * @throws Exception
+     */
     public function testPlainCharactersRemain(): void
     {
         $this->assertSame("abc", PercentDecoder::decode("abc"));
     }
 
+    /**
+     * @throws Exception
+     */
     public function testDotHyphenTildeAreEscaped(): void
     {
         $this->assertSame("\\.\\-\\~", PercentDecoder::decode(".-~"));
     }
 
+    /**
+     * @throws Exception
+     */
     public function testSimplePercentSequence(): void
     {
         $this->assertSame("\\!", PercentDecoder::decode("%21"));
@@ -53,6 +68,9 @@ final class PercentDecoderTest extends TestCase
         PercentDecoder::decode("%2");
     }
 
+    /**
+     * @throws Exception
+     */
     #[DataProvider('mappingProvider')]
     public function testAllMappings(string $encoded, string $expected): void
     {
@@ -97,6 +115,9 @@ final class PercentDecoderTest extends TestCase
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function testPercent01ValidPositions(): void
     {
         $this->assertSame("?", PercentDecoder::decode("%01"));
@@ -115,6 +136,9 @@ final class PercentDecoderTest extends TestCase
         PercentDecoder::decode("x%01y");
     }
 
+    /**
+     * @throws Exception
+     */
     public function testPercent02AllowedOnlyAtStartOrEnd(): void
     {
         $this->assertSame("*", PercentDecoder::decode("%02"));
