@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Rikstone\Cpe\Tests\Naming\URI;
+namespace Rikstone\Cpe\Tests\FormattedString;
 
 use PHPUnit\Framework\TestCase;
 use Rikstone\Cpe\Common\Logical\Any;
 use Rikstone\Cpe\Common\Logical\NA;
 use Rikstone\Cpe\Common\Part;
-use Rikstone\Cpe\Naming\URI\Binder;
+use Rikstone\Cpe\Naming\FormattedString\Binder;
 use Rikstone\Cpe\WellFormedName;
 
-final class BindToURITest extends TestCase
+final class BindToFSTest extends TestCase
 {
     private Binder $binder;
 
@@ -32,8 +32,8 @@ final class BindToURITest extends TestCase
         );
 
         $this->assertSame(
-            'cpe:/a:microsoft:internet_explorer:8.0.6001:beta',
-            $this->binder->bindToURI($wfn),
+            'cpe:2.3:a:microsoft:internet_explorer:8.0.6001:beta:*:*:*:*:*:*',
+            $this->binder->bindToFS($wfn),
         );
     }
 
@@ -45,12 +45,12 @@ final class BindToURITest extends TestCase
             product: 'internet_explorer',
             version: '8\.*',
             update: 'sp?',
+            edition: new Any(),
         );
 
-
         $this->assertSame(
-            'cpe:/a:microsoft:internet_explorer:8.%02:sp%01',
-            $this->binder->bindToURI($wfn),
+            'cpe:2.3:a:microsoft:internet_explorer:8.*:sp?:*:*:*:*:*:*',
+            $this->binder->bindToFS($wfn),
         );
     }
 
@@ -59,7 +59,7 @@ final class BindToURITest extends TestCase
         $wfn = new WellFormedName(
             part: Part::A,
             vendor: 'hp',
-            product: 'insight_diagnostics',
+            product: 'insight',
             version: '7\.4\.0\.1570',
             update: new NA(),
             swEdition: 'online',
@@ -67,10 +67,9 @@ final class BindToURITest extends TestCase
             targetHW: 'x64',
         );
 
-
         $this->assertSame(
-            'cpe:/a:hp:insight_diagnostics:7.4.0.1570:-:~~online~win2003~x64~',
-            $this->binder->bindToURI($wfn),
+            'cpe:2.3:a:hp:insight:7.4.0.1570:-:*:*:online:win2003:x64:*',
+            $this->binder->bindToFS($wfn),
         );
     }
 
@@ -84,10 +83,9 @@ final class BindToURITest extends TestCase
             targetSW: 'linux',
         );
 
-
         $this->assertSame(
-            'cpe:/a:hp:openview_network_manager:7.51::~~~linux~~',
-            $this->binder->bindToURI($wfn),
+            'cpe:2.3:a:hp:openview_network_manager:7.51:*:*:*:*:linux:*:*',
+            $this->binder->bindToFS($wfn),
         );
     }
 
@@ -95,16 +93,16 @@ final class BindToURITest extends TestCase
     {
         $wfn = new WellFormedName(
             part: Part::A,
-            vendor: 'foo\\\\bar',
-            product: 'big\$money_manager_2010',
+            vendor: 'foo\\bar',
+            product: 'big\$money_2010',
             swEdition: 'special',
             targetSW: 'ipod_touch',
             targetHW: '80gb',
         );
 
         $this->assertSame(
-            'cpe:/a:foo%5cbar:big%24money_manager_2010:::~~special~ipod_touch~80gb~',
-            $this->binder->bindToURI($wfn),
+            'cpe:2.3:a:foo\\bar:big\$money_2010:*:*:*:*:special:ipod_touch:80gb:*',
+            $this->binder->bindToFS($wfn),
         );
     }
 }
