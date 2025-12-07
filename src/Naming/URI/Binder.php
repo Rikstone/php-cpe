@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Rikstone\Cpe\Naming;
+namespace Rikstone\Cpe\Naming\URI;
 
 use Rikstone\Cpe\Common\Logical\Any;
 use Rikstone\Cpe\Common\Logical\LogicalValue;
@@ -11,7 +11,7 @@ use Rikstone\Cpe\Common\Part;
 use Rikstone\Cpe\Exception\InvalidLogicalValueException;
 use Rikstone\Cpe\WellFormedName;
 
-final class URIBinder
+final class Binder
 {
     /**
      * @throws InvalidLogicalValueException

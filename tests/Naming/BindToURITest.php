@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Rikstone\Cpe\Tests\Binder;
+namespace Rikstone\Cpe\Tests\Naming;
 
 use PHPUnit\Framework\TestCase;
 use Rikstone\Cpe\Common\Logical\Any;
 use Rikstone\Cpe\Common\Logical\NA;
 use Rikstone\Cpe\Common\Part;
-use Rikstone\Cpe\Naming\URIBinder;
+use Rikstone\Cpe\Naming\URI\Binder;
 use Rikstone\Cpe\WellFormedName;
 
 final class BindToURITest extends TestCase
 {
-    public function testBinderCreation(): void
+    private Binder $binder;
+
+    protected function setUp(): void
     {
-        $this->assertInstanceOf(URIBinder::class, new URIBinder());
+        $this->binder = new Binder();
     }
 
     public function testFirstExampleFromSpecification(): void
@@ -29,10 +31,9 @@ final class BindToURITest extends TestCase
             edition: new Any(),
         );
 
-
         $this->assertSame(
             'cpe:/a:microsoft:internet_explorer:8.0.6001:beta',
-            new URIBinder()->bindToURI($wfn),
+            $this->binder->bindToURI($wfn),
         );
     }
 
@@ -49,7 +50,7 @@ final class BindToURITest extends TestCase
 
         $this->assertSame(
             'cpe:/a:microsoft:internet_explorer:8.%02:sp%01',
-            new URIBinder()->bindToURI($wfn),
+            $this->binder->bindToURI($wfn),
         );
     }
 
@@ -69,7 +70,7 @@ final class BindToURITest extends TestCase
 
         $this->assertSame(
             'cpe:/a:hp:insight_diagnostics:7.4.0.1570:-:~~online~win2003~x64~',
-            new URIBinder()->bindToURI($wfn),
+            $this->binder->bindToURI($wfn),
         );
     }
 
@@ -86,7 +87,7 @@ final class BindToURITest extends TestCase
 
         $this->assertSame(
             'cpe:/a:hp:openview_network_manager:7.51::~~~linux~~',
-            new URIBinder()->bindToURI($wfn),
+            $this->binder->bindToURI($wfn),
         );
     }
 
@@ -103,7 +104,7 @@ final class BindToURITest extends TestCase
 
         $this->assertSame(
             'cpe:/a:foo%5cbar:big%24money_manager_2010:::~~special~ipod_touch~80gb~',
-            new URIBinder()->bindToURI($wfn),
+            $this->binder->bindToURI($wfn),
         );
     }
 }
